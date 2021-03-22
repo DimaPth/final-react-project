@@ -1,6 +1,7 @@
 import { IconButton, Table, TableBody, TableCell, TableFooter, TableHead, TableRow, TextField, Button } from "@material-ui/core";
 import React, { useContext, useRef } from "react";
 import { MainContext } from "../contexts/mainContext";
+import { NavLink } from "react-router-dom";
 
 const TableConfig = [
     {header: "Название", key: "Title"},
@@ -28,9 +29,11 @@ const MovieTable = () => {
                 <TableBody>
                     {tableItems.map(item => {
                         return (
-                            <TableRow>{TableConfig.map(cell => {
-                                return <TableCell>{item[cell.key]}</TableCell>
-                            })}</TableRow>
+                            
+                                <TableRow>{TableConfig.map(cell => {
+                                    return <TableCell><NavLink to={`/card/${item.imdbID}`}>{item[cell.key]}</NavLink></TableCell>
+                                })}</TableRow>
+                            
                         )
                     })}
                 </TableBody>

@@ -7,7 +7,7 @@ import { MovieTable } from "../../components/table/movieTable";
 const TablePage = () => {
 
     return (
-        <PageLayout title='Table'>
+        <PageLayout title='Movies'>
           <MainContextProvider>
             <MovieTable />
           </MainContextProvider>
