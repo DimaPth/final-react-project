@@ -13,11 +13,11 @@ import { NavLink, useParams } from "react-router-dom";
 
 const useStyles1 = makeStyles({
     root: {
-      maxWidth: 500,
+      maxWidth: 300,
     },
     media: {
-      height: 300,
-      width: 300
+      height: 220,
+      width: 150
     },
 });
 
