@@ -1,62 +1,56 @@
-import React, { createContext, useEffect, useMemo, useState } from 'react';
-import { useDebounce } from '../hooks/useDebounce';
+import React, { createContext, useEffect, useMemo, useState } from "react";
+import { FilmApiServise } from "../features/services/filmsApiService";
+import { useDebounce } from "../hooks/useDebounce";
+import { LocalStorageService } from "../../services/localStorage";
 
 export const MainContext = createContext({
-    tableItems: [],
-    page: 1,
-    text: "Enemy",
-    setPage: () => {},
-    prevPage: () => {},
-    nextPage: () => {},
-    setTableItems: () => {},
-})
+  tableItems: [],
+  page: 1,
+  text: "Enemy",
+  setPage: () => {},
+  prevPage: () => {},
+  nextPage: () => {},
+  setTableItems: () => {},
+});
 
-export const MainContextProvider = ({children}) => {
-    const [tableItems, setTableItems] = useState([]);
-    const [page, setPage] = useState(1);
-    const [text, setText] = useState("Enemy");
+export const MainContextProvider = ({ children }) => {
+  const [tableItems, setTableItems] = useState([]);
+  const [page, setPage] = useState(LocalStorageService.getItem("page") || 1);
+  const [text, setText] = useState(
+    LocalStorageService.getItem("searchValue") || "Alien"
+  );
+  const searchValue = useDebounce(text, 800);
 
-    useEffect(() => {
-        fetch(
-          `https://movie-database-imdb-alternative.p.rapidapi.com/?s=${text}&page=${page}&r=json`,
-          {
-            method: "GET",
-            headers: {
-              "x-rapidapi-key":
-                "735e98d632msh363566e7ac2764cp1fc60ajsn43cc8721f9fd",
-              "x-rapidapi-host": "movie-database-imdb-alternative.p.rapidapi.com",
-            },
-          }
-        )
-          .then((response) => response.json())
-          .then(data => setTableItems(data.Search))
-          .catch((err) => {
-            console.error(err);
-          });
-    }, [text, page])
+  const fetchFilms = async () => {
+    const data = await FilmApiServise.getAll(page, searchValue);
+    setTableItems(data.Search || []);
+  };
 
-    const nextPage = () => {
-        setPage(page + 1);
-    }
+  useEffect(() => {
+    LocalStorageService.setItems({ searchValue, page });
+    fetchFilms();
+  }, [searchValue, page]);
 
-    const prevPage = () => {
-        setPage(page - 1);
-    }
+  const nextPage = () => {
+    setPage(page + 1);
+  };
 
-    const value = useMemo(
-        () => ({
-            tableItems,
-            page,
-            text,
-            setText,
-            nextPage,
-            prevPage,
-            setPage,
-            setTableItems,
-        }),
-        [tableItems]
-    )
-    return (
-        <MainContext.Provider value={value}>{children}</MainContext.Provider>
-    )
-}
+  const prevPage = () => {
+    setPage(page - 1);
+  };
+
+  const value = useMemo(
+    () => ({
+      tableItems,
+      page,
+      text,
+      setText,
+      nextPage,
+      prevPage,
+      setPage,
+      setTableItems,
+    }),
+    [tableItems, page, text, nextPage, prevPage]
+  );
+  return <MainContext.Provider value={value}>{children}</MainContext.Provider>;
+};
