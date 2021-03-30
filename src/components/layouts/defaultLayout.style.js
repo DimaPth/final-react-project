@@ -15,5 +15,6 @@ export const useStyles = makeStyles((theme) => ({
     gridColumn: "2/3",
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4),
+    backgroundColor: '#292828',
   },
 }));

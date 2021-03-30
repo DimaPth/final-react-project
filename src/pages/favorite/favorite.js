@@ -1,18 +1,16 @@
 import React from "react";
-import { FilmCard } from "../../components/card/movieCard";
+import { FavoriteFilms } from "../../components/favorite/favoriteFilms";
 import { MainContextProvider } from "../../components/contexts/mainContext";
 import { PageLayout } from "../../components/layouts/pageLayout";
 
 
-const FilmCardPage = () => {
+const FavoriteFilmsPage = () => {
 
     return (
-        <PageLayout>
           <MainContextProvider>
-            <FilmCard />
+            <FavoriteFilms />
           </MainContextProvider>
-        </PageLayout>
     )
 }
 
-export {FilmCardPage};
+export {FavoriteFilmsPage};

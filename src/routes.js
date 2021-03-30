@@ -1,4 +1,4 @@
-import { TablePage, FilmCardPage } from "./pages";
+import { TablePage, FilmCardPage, FavoriteFilmsPage } from "./pages";
 
 export const routes = [
   {
@@ -9,5 +9,9 @@ export const routes = [
   {
     path: "/card/:id",
     component: FilmCardPage,
+  },
+  {
+    path: "/favorite/",
+    component: FavoriteFilmsPage,
   },
 ];
