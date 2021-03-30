@@ -13,9 +13,10 @@ import { LocalStorageService } from "../../services/localStorage";
 const useStyles1 = makeStyles((theme) => ({
   root: {
     maxWidth: 900,
-    margin: '0 auto',
-    display: 'flex',
-    background: 'linear-gradient( rgb(140 138 138 / 60%), rgb(53 50 50 / 70%) )',
+    margin: "0 auto",
+    display: "flex",
+    background:
+      "linear-gradient( rgb(140 138 138 / 60%), rgb(53 50 50 / 70%) )",
     color: theme.palette.common.white,
   },
   media: {
@@ -23,38 +24,48 @@ const useStyles1 = makeStyles((theme) => ({
     width: 300,
   },
   link: {
-    textDecoration: 'none',
-    color: 'black',
-    margin: theme.spacing(2)
+    textDecoration: "none",
+    color: "black",
+    margin: theme.spacing(2),
   },
   cardContent: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
     justifyContent: "space-around",
-    alignItems: 'center',
-  }
+    alignItems: "center",
+  },
 }));
 
+const getFavoriteItems = () => LocalStorageService.getItem("favorite") || [];
+
 const FilmCard = () => {
-  const [cardItems, setCardItems] = useState([]);
   const { id } = useParams();
   const classes = useStyles1();
-  const handleClick = () =>{
-    LocalStorageService.setItems({ cardItems });
-  }
+  const [cardItems, setCardItems] = useState([]);
+  const [isSelected, setIsSelected] = useState(
+    getFavoriteItems().some((fItem) => fItem.imdbID === id)
+  );
+  const handleClick = () => {
+    const curItems = getFavoriteItems();
+    LocalStorageService.setItems({
+      favorite: isSelected
+        ? curItems.filter((film) => film.imdbID !== id)
+        : [...curItems, cardItems],
+    });
+    setIsSelected((v) => !v);
+  };
 
   useEffect(() => {
-    FilmApiServise.getById(id)
-      .then((data) => setCardItems(data))
+    FilmApiServise.getById(id).then((data) => setCardItems(data));
   }, [id]);
 
   return (
     <Card className={classes.root}>
-        <div>
-          <CardMedia className={classes.media} image={`${cardItems.Poster}`} />
-        </div>
-        <div>
+      <div>
+        <CardMedia className={classes.media} image={`${cardItems.Poster}`} />
+      </div>
+      <div>
         <CardContent className={classes.cardContent}>
           <Typography gutterBottom variant="h4" component="h2">
             {`${cardItems.Title}`}
@@ -63,7 +74,9 @@ const FilmCard = () => {
             {`Actors: ${cardItems.Actors}`}
           </Typography>
           <Typography variant="body1" component="p">
-            <Typography variant='h5' component='p' style={{marginBottom: 10}}>Overview:</Typography>
+            <Typography variant="h5" component="p" style={{ marginBottom: 10 }}>
+              Overview:
+            </Typography>
             {`${cardItems.Plot}`}
           </Typography>
           <CardActions>
@@ -72,9 +85,9 @@ const FilmCard = () => {
                 Back
               </Button>
             </NavLink>
-              <Button size="small" variant="contained" onClick={handleClick}>
-                Add to favorite
-              </Button>
+            <Button size="small" variant="contained" onClick={handleClick}>
+              {isSelected ? "Added" : "Add to favorite"}
+            </Button>
           </CardActions>
         </CardContent>
       </div>

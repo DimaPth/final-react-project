@@ -12,12 +12,12 @@ import {
   TableRow,
   TextField,
 } from "@material-ui/core";
-import React, { useContext} from "react";
+import React, { useContext } from "react";
 import { MainContext } from "../contexts/mainContext";
 import { NavLink } from "react-router-dom";
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Pagination from '@material-ui/lab/Pagination';
+import { withStyles, makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import Pagination from "@material-ui/lab/Pagination";
 
 const tableConfig = [
   { header: "Название", key: "Title", isLink: true },
@@ -27,7 +27,7 @@ const tableConfig = [
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    background: 'linear-gradient( rgba(39, 39, 39, 0.6), rgba(0, 0, 0, 0.7) )',
+    background: "linear-gradient( rgba(39, 39, 39, 0.6), rgba(0, 0, 0, 0.7) )",
     color: theme.palette.common.white,
   },
   body: {
@@ -37,81 +37,81 @@ const StyledTableCell = withStyles((theme) => ({
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: 'darkgrey',
+    "&:nth-of-type(odd)": {
+      backgroundColor: "darkgrey",
     },
   },
 }))(TableRow);
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    '& > *': {
+    display: "flex",
+    justifyContent: "space-around",
+    "& > *": {
       marginTop: theme.spacing(2),
     },
     marginBottom: theme.spacing(3),
     paddingTop: theme.spacing(1),
   },
   searchBar: {
-    '& > *': {
+    "& > *": {
       margin: theme.spacing(3),
-      width: '25ch',
+      width: "25ch",
     },
   },
   searchField: {
     padding: 10,
   },
   link: {
-    textDecoration: 'none',
-    color: 'black',
+    textDecoration: "none",
+    color: "black",
     margin: theme.spacing(2),
     fontSize: 20,
-    color: theme.palette.common.black
+    color: theme.palette.common.black,
   },
   table: {
     minWidth: 650,
-    background: '#8c8c8c',
-  }
+    background: "#8c8c8c",
+  },
 }));
 
 const MovieTable = () => {
-  const {totalResults, tableItems, page, setPage, setText, text } = useContext(
+  const { totalResults, tableItems, page, setPage, setText, text } = useContext(
     MainContext
   );
-  console.log(totalResults);
-  console.log(tableItems);
   const handleChange = (e) => {
     const value = e.target.value;
     setText(value);
   };
-  
+
   const classes = useStyles();
   const pageChange = (event, value) => {
     setPage(value);
   };
-  const result = Math.ceil(totalResults / tableItems.length);
+  const result = Math.ceil(totalResults / 10);
   console.log(result);
   return (
     <>
       <div className={classes.searchBar}>
-        <Paper style={{borderRadius: 20, backgroundColor: 'darkgrey'}}>
+        <Paper style={{ borderRadius: 20, backgroundColor: "darkgrey" }}>
           <InputBase
-          className={classes.searchField}
-          placeholder="Search"
-          type="text"
-          value={text}
-          onChange={handleChange}
+            className={classes.searchField}
+            placeholder="Search"
+            type="text"
+            value={text}
+            onChange={handleChange}
           />
         </Paper>
       </div>
-      
-      <TableContainer style={{borderRadius: 20, marginBottom: 30}}>
+
+      <TableContainer style={{ borderRadius: 20, marginBottom: 30 }}>
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
             <StyledTableRow>
               {tableConfig.map((cell) => (
-                <StyledTableCell ><Typography variant="h6">{cell.header}</Typography></StyledTableCell>
+                <StyledTableCell>
+                  <Typography variant="h6">{cell.header}</Typography>
+                </StyledTableCell>
               ))}
             </StyledTableRow>
           </TableHead>
@@ -121,11 +121,17 @@ const MovieTable = () => {
                 <StyledTableRow>
                   {tableConfig.map((cell) => {
                     return (
-                      <TableCell style={{fontSize: 18, color: 'white'}}>
-                        {cell.isLink? (
-                        <NavLink className={classes.link} to={`/card/${item.imdbID}`}>
-                          {item[cell.key]}
-                        </NavLink>) : (item[cell.key])}
+                      <TableCell style={{ fontSize: 18, color: "white" }}>
+                        {cell.isLink ? (
+                          <NavLink
+                            className={classes.link}
+                            to={`/card/${item.imdbID}`}
+                          >
+                            {item[cell.key]}
+                          </NavLink>
+                        ) : (
+                          item[cell.key]
+                        )}
                       </TableCell>
                     );
                   })}
@@ -143,7 +149,15 @@ const MovieTable = () => {
             </TableRow> */}
             <TableRow className={classes.root}>
               <Typography variant="h6">Page: {page}</Typography>
-              <Pagination m={1} count={result} page={page} onChange={pageChange} size="large" showFirstButton showLastButton/>
+              <Pagination
+                m={1}
+                count={result}
+                page={page}
+                onChange={pageChange}
+                size="large"
+                showFirstButton
+                showLastButton
+              />
             </TableRow>
           </TableFooter>
         </Table>

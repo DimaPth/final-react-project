@@ -8,8 +8,6 @@ export const MainContext = createContext({
   totalResults: [],
   page: 1,
   text: "Enemy",
-  favoriteFilm: [],
-  setFavoriteFilm: () => {},
   setPage: () => {},
   prevPage: () => {},
   nextPage: () => {},
@@ -18,11 +16,9 @@ export const MainContext = createContext({
 });
 
 export const MainContextProvider = ({ children }) => {
-  const [favoriteFilm, setFavoriteFilm] = useState([]);
   const [tableItems, setTableItems] = useState([]);
   const [totalResults, setTotalResults] = useState([]);
   const [page, setPage] = useState(LocalStorageService.getItem("page") || 1);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [text, setText] = useState(
     LocalStorageService.getItem("searchValue") || ""
   );
@@ -45,8 +41,6 @@ export const MainContextProvider = ({ children }) => {
       page,
       text,
       totalResults,
-      favoriteFilm,
-      setFavoriteFilm,
       setText,
       setPage,
       setTableItems,
