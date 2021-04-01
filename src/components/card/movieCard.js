@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import { NavLink, useParams } from "react-router-dom";
 import { FilmApiServise } from "../features/services/filmsApiService";
 import { LocalStorageService } from "../../services/localStorage";
+import { MainContext } from "../contexts/mainContext";
 
 const useStyles1 = makeStyles((theme) => ({
   root: {

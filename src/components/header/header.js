@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
       [theme.breakpoints.up('sm')]: {
         display: 'block',
       },
-      color: theme.palette.common.white
+      color: 'floralwhite',
     },
     appBar: {
       background: 'linear-gradient( rgb(0 0 0 / 80%), rgba(0, 0, 0, 0.7) )',
