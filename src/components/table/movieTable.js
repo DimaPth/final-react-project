@@ -15,9 +15,10 @@ import {
 import React, { useContext } from "react";
 import { MainContext } from "../contexts/mainContext";
 import { NavLink } from "react-router-dom";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Pagination from "@material-ui/lab/Pagination";
+import { useStyles } from './movieTable.style'
 
 const tableConfig = [
   { header: "Название", key: "Title", isLink: true },
@@ -42,38 +43,6 @@ const StyledTableRow = withStyles((theme) => ({
     },
   },
 }))(TableRow);
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    justifyContent: "space-around",
-    "& > *": {
-      marginTop: theme.spacing(2),
-    },
-    marginBottom: theme.spacing(3),
-    paddingTop: theme.spacing(1),
-  },
-  searchBar: {
-    "& > *": {
-      margin: theme.spacing(3),
-      width: "25ch",
-    },
-  },
-  searchField: {
-    padding: 10,
-  },
-  link: {
-    textDecoration: "none",
-    color: "black",
-    margin: theme.spacing(2),
-    fontSize: 20,
-    color: theme.palette.common.black,
-  },
-  table: {
-    minWidth: 650,
-    background: "#8c8c8c",
-  },
-}));
 
 const MovieTable = () => {
   const { totalResults, tableItems, page, setPage, setText, text } = useContext(
